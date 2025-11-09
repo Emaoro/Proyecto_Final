@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Calculadora de Pago Atleta</title>
+</head>
+<body>
+<h1>Registrar y calcular pago del atleta</h1>
+
+<form id="pagoForm">
+    Entrenamientos: <input type="number" id="entrenamientos"><br>
+    Bonificación Extranjero: <input type="number" id="extranjero"><br>
+    Bonificación Mejora: <input type="number" id="mejora"><br>
+    <button type="submit">Calcular Pago</button>
+</form>
+
+<h2>Resultado:</h2>
+<pre id="resultado"></pre>
+
+<script>
+    const form = document.getElementById("pagoForm");
+    form.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const entrenamientos = document.getElementById("entrenamientos").value;
+        const extranjero = document.getElementById("extranjero").value;
+        const mejora = document.getElementById("mejora").value;
+
+        const res = await fetch(`/api/calcularPago?entrenamientos=${entrenamientos}&bonificacionExtranjero=${extranjero}&bonificacionMejora=${mejora}`, {
+            method: 'POST'
+        });
+
+        const data = await res.json();
+        document.getElementById("resultado").textContent = JSON.stringify(data, null, 2);
+    });
+</script>
+</body>
+</html>
